@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Survey Form</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <script>
+        function addDomain() {
+            var domainList = document.getElementById('domain-list');
+            var newDomainIndex = domainList.children.length;
+
+            var newDomainDiv = document.createElement('div');
+            newDomainDiv.classList.add('form-row', 'mb-3');
+
+            var adminEmailDiv = document.createElement('div');
+            adminEmailDiv.classList.add('form-group', 'col-md-5');
+            var adminEmailLabel = document.createElement('label');
+            adminEmailLabel.setAttribute('for', 'adminEmail' + newDomainIndex);
+            adminEmailLabel.textContent = 'Admin Email';
+            var adminEmailInput = document.createElement('input');
+            adminEmailInput.setAttribute('type', 'email');
+            adminEmailInput.classList.add('form-control');
+            adminEmailInput.setAttribute('id', 'adminEmail' + newDomainIndex);
+            adminEmailInput.setAttribute('name', 'domains[' + newDomainIndex + '].adminEmail');
+            adminEmailInput.setAttribute('placeholder', 'Enter Admin Email');
+            adminEmailDiv.appendChild(adminEmailLabel);
+            adminEmailDiv.appendChild(adminEmailInput);
+
+            var domainNameDiv = document.createElement('div');
+            domainNameDiv.classList.add('form-group', 'col-md-5');
+            var domainNameLabel = document.createElement('label');
+            domainNameLabel.setAttribute('for', 'domainName' + newDomainIndex);
+            domainNameLabel.textContent = 'Domain Name';
+            var domainNameInput = document.createElement('input');
+            domainNameInput.setAttribute('type', 'text');
+            domainNameInput.classList.add('form-control');
+            domainNameInput.setAttribute('id', 'domainName' + newDomainIndex);
+            domainNameInput.setAttribute('name', 'domains[' + newDomainIndex + '].domainName');
+            domainNameInput.setAttribute('placeholder', 'Enter Domain Name');
+            domainNameDiv.appendChild(domainNameLabel);
+            domainNameDiv.appendChild(domainNameInput);
+
+            var removeButtonDiv = document.createElement('div');
+            removeButtonDiv.classList.add('form-group', 'col-md-2', 'align-self-end');
+            var removeButton = document.createElement('button');
+            removeButton.setAttribute('type', 'button');
+            removeButton.classList.add('btn', 'btn-danger', 'btn-block');
+            removeButton.textContent = 'Remove';
+            removeButton.onclick = function() {
+                domainList.removeChild(newDomainDiv);
+                reindexDomains();
+            };
+            removeButtonDiv.appendChild(removeButton);
+
+            newDomainDiv.appendChild(adminEmailDiv);
+            newDomainDiv.appendChild(domainNameDiv);
+            newDomainDiv.appendChild(removeButtonDiv);
+
+            domainList.appendChild(newDomainDiv);
+        }
+
+        function reindexDomains() {
+            var domainList = document.getElementById('domain-list');
+            var domainDivs = domainList.getElementsByClassName('form-row');
+
+            for (var i = 0; i < domainDivs.length; i++) {
+                var adminEmailInput = domainDivs[i].querySelector('input[type="email"]');
+                var domainNameInput = domainDivs[i].querySelector('input[type="text"]');
+
+                adminEmailInput.setAttribute('id', 'adminEmail' + i);
+                adminEmailInput.setAttribute('name', 'domains[' + i + '].adminEmail');
+
+                domainNameInput.setAttribute('id', 'domainName' + i);
+                domainNameInput.setAttribute('name', 'domains[' + i + '].domainName');
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Survey Form</h2>
+    <form th:action="@{/survey/create-survey}" th:object="${surveyForm}" method="post">
+        <div class="form-group">
+            <label for="surveyUrl">Survey URL:</label>
+            <input type="text" id="surveyUrl" th:field="*{surveyUrl}" class="form-control" placeholder="Enter Survey URL"/>
+        </div>
+
+        <div id="domain-list">
+            <div th:each="domain, iterStat : ${surveyForm.domains}" class="form-row mb-3">
+                <div class="form-group col-md-5">
+                    <label for="adminEmail[[iterStat.index]]">Admin Email</label>
+                    <input type="email" id="adminEmail[[iterStat.index]]" th:field="*{domains[iterStat.index].adminEmail}" class="form-control" placeholder="Enter Admin Email"/>
+                </div>
+                <div class="form-group col-md-5">
+                    <label for="domainName[[iterStat.index]]">Domain Name</label>
+                    <input type="text" id="domainName[[iterStat.index]]" th:field="*{domains[iterStat.index].domainName}" class="form-control" placeholder="Enter Domain Name"/>
+                </div>
+                <div class="form-group col-md-2 align-self-end">
+                    <button type="button" class="btn btn-danger btn-block" onclick="this.closest('.form-row').remove(); reindexDomains();">Remove</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button type="button" class="btn btn-primary" onclick="addDomain()">+ Add Domain</button>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Submit</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

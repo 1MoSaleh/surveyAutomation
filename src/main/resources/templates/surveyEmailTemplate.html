@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نقدّر رأيك</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+            text-align: right;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #007bff;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>نقدّر رأيك!</h1>
+    <p>عزيزي العميل،</p>
+    <p>
+        نسعى دائماً لتقديم أفضل تجربة ممكنة لعملائنا. ومن أجل مساعدتنا في تحسين خدماتنا، نود أن نحصل على رأيك القيّم
+    </p>
+    <p>
+        نرجو منك تخصيص بضع دقائق للمشاركة في استبياننا. ستساعدنا إجاباتك على فهم ما نقوم به بشكل جيد وأين يمكننا التحسين. من المتوقع أن يستغرق الاستبيان بضع دقائق فقط.
+    </p>
+    <p>
+        <a th:href="@{${surveyUrl}}" class="button">المشاركة في الاستبيان</a>
+    </p>
+    <p>
+        سيتم التعامل مع ملاحظاتك بسرية تامة، وستستخدم فقط بهدف تحسين خدماتنا.
+    </p>
+    <p>
+        نشكرك مقدماً على وقتك وملاحظاتك القيمة. إذا كان لديك أي أسئلة أو تحتاج إلى مساعدة، يرجى عدم التردد في الاتصال بنا.
+    </p>
+    <p>مع أطيب التحيات،</p>
+    <p>
+        فريق أسماء النطاقات السعودية
+    </p>
+</div>
+<div class="footer">
+    &copy; جميع الحقوق محفوظة.
+</div>
+</body>
+</html>
